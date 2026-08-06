@@ -65,6 +65,35 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig("genre_distribution.png")  # Saves the plot
 plt.close()
+# Step 11: Analyze clusters
 
-# Step 11: Save final dataset with clusters
+cluster_summary = df.groupby("cluster")[features].mean()
+
+print("\nCluster Feature Summary:")
+print(cluster_summary)
+
+
+# Find dominant genre in each cluster
+
+cluster_genre = df.groupby("cluster")["playlist_genre"].agg(
+    lambda x: x.value_counts().index[0]
+)
+
+print("\nDominant Genre in Each Cluster:")
+print(cluster_genre)
+
+
+# Save cluster summary
+
+cluster_summary.to_csv("cluster_summary.csv")
+
+cluster_genre.to_csv("cluster_genre_mapping.csv")
+
+
+# Step 12: Save final dataset with clusters
+
+df.to_csv("spotify_clustered_output.csv", index=False)
+
+print("\nProject Completed Successfully!")
+# Step 12: Save final dataset with clusters
 df.to_csv("spotify_clustered_output.csv", index=False)
